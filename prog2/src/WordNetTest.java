@@ -23,7 +23,7 @@ public class WordNetTest
             int expected = expectedDistances[i];
             int actual = wn.distance(nounA, nounB);
             StdOut.println("Sample i:" + i + "Expected==Actual" +  expected +" "+ actual);
-            //assertEquals("Sample i:" + i, expected, actual);
+            assertEquals("Sample i:" + i, expected, actual);
         }
         
     }
