@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.DirectedCycle;
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.KosarajuSharirSCC;
 
 public class WordNet
 {
@@ -50,6 +53,25 @@ public class WordNet
         if (obj == null)
             throw new NullPointerException();
     }
+    
+    private void validateAsylic(Digraph g){
+        DirectedCycle dc = new DirectedCycle(g);
+        if (dc.hasCycle()){
+            throw new IllegalArgumentException("Graph has a cycle");
+        }
+    }
+    
+    private void validateRooted(Digraph g){
+        int count = 0;
+        for (int v = 0; v < g.V(); v++) {
+            if ( !(g.adj(v).iterator().hasNext())) count++;
+            if ( count > 1) break;
+                
+        }
+        if ( count > 1){
+            throw new IllegalArgumentException("Has more than one root");
+        }
+    }
 
     private void validateNounExists(String noun)
     {
@@ -65,6 +87,11 @@ public class WordNet
         validateNotNullArgument(hypernyms);
         readAndParseSynsets(synsets);
         readAndParseHypernyms(hypernyms);
+        
+        validateAsylic(graph);
+        validateRooted(graph);
+        
+        this.sap = new SAP(graph);
     }
 
     private void readAndParseSynsets(String synsets)
@@ -100,7 +127,7 @@ public class WordNet
             }
         }
 
-        this.sap = new SAP(graph);
+        
     }
 
     // returns all WordNet nouns
