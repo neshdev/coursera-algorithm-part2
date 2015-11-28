@@ -1,7 +1,9 @@
+package prog1;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import prog1.WordNet;
 import edu.princeton.cs.algs4.StdOut;
 
 
