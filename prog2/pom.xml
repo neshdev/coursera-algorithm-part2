@@ -22,7 +22,7 @@
   		<artifactId>algs4</artifactId>
   		<version>1.0.0</version>
   		<scope>system</scope>
-  		<systemPath>C:\Users\admin\algs4\algs4.jar</systemPath>
+  		<systemPath>${project.basedir}/lib/algs4.jar</systemPath>
   	</dependency>
   	<dependency>
   		<groupId>junit</groupId>
