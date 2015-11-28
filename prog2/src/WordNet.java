@@ -4,7 +4,6 @@ import java.util.HashMap;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.DirectedCycle;
 import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.KosarajuSharirSCC;
 
 public class WordNet
 {
@@ -30,13 +29,6 @@ public class WordNet
             nouns.put(key, list);
         } else{
             nouns.get(key).add(value);
-        }
-    }
-
-    private void addSynsets(Integer key, String[] values)
-    {
-        for (int i = 0; i < values.length; i++) {
-            addSynset(key, values[i]);
         }
     }
 
@@ -104,10 +96,11 @@ public class WordNet
         while ((line = in.readLine()) != null) {
             String[] items = line.split(",");
             Integer id = Integer.parseInt(items[0]);
+            String synonyms = items[1];
             String[] synonymSet = items[1].split(" ");
             String gloss = items[2];
 
-            addSynsets(id, synonymSet);
+            addSynset(id, synonyms);
             addNouns(synonymSet, id);
             verticies++;
         }
