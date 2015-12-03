@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 import edu.princeton.cs.algs4.AcyclicSP;
 import edu.princeton.cs.algs4.DirectedEdge;
 import edu.princeton.cs.algs4.EdgeWeightedDigraph;
@@ -39,11 +41,11 @@ public class SeamCarver
     {
         //throw new IllegalArgumentException();
         if (seam.length != length)
-            throw new IllegalArgumentException("Seam is longer. " + "Actual: " + seam.length
+            throw new IllegalArgumentException("Seam is not the same. " + "Actual: " + seam.length
                     + ", Expected : " + length);
 
         for (int i = 1; i < seam.length; i++) {
-            if (Math.abs(seam[i] - seam[i - 1]) != 1) {
+            if (Math.abs(seam[i] - seam[i - 1]) > 1) {
                 throw new IllegalArgumentException("Seam at index " + i + ":" + seam[i]
                         + " differrs from seam at index " + (i - 1) + ":" + seam[i - 1]);
             }
@@ -101,34 +103,34 @@ public class SeamCarver
     {
         int[] seams = new int[this.width()];
         double[][] energy = new double[this.height()][this.width()];
-        
+
         for (int row = 0; row < energy.length; row++) {
             for (int column = 0; column < energy[row].length; column++) {
                 energy[row][column] = energy(column, row);
             }
         }
-        
+
         int minRowIndex = -1;
         double minEnegy = Double.MAX_VALUE;
         for (int row = 0; row < this.height(); row++) {
-            if ( minEnegy > energy[row][1] ){
+            if (minEnegy > energy[row][1]) {
                 minEnegy = energy[row][1];
                 minRowIndex = row;
             }
         }
-        
+
         seams[0] = minRowIndex;
         seams[1] = minRowIndex;
-        
+
         for (int column = 2; column < this.width() - 1; column++) {
             minRowIndex = getMinEnergyRowIndex(minRowIndex, column, energy);
             seams[column] = minRowIndex;
         }
-        
+
         seams[this.width() - 1] = seams[this.width() - 2];
-        
+
         return seams;
-        
+
     }
 
     // sequence of indices for vertical seam
@@ -136,74 +138,82 @@ public class SeamCarver
     {
         int[] seams = new int[this.height()];
         double[][] energy = new double[this.height()][this.width()];
-        
+
         for (int row = 0; row < energy.length; row++) {
             for (int column = 0; column < energy[row].length; column++) {
                 energy[row][column] = energy(column, row);
             }
         }
-        
+
         int minColumnsIndex = -1;
         double minEnegy = Double.MAX_VALUE;
         for (int column = 0; column < this.width(); column++) {
-            if ( minEnegy > energy[1][column] ){
+            if (minEnegy > energy[1][column]) {
                 minEnegy = energy[1][column];
                 minColumnsIndex = column;
             }
         }
-        
+
         seams[0] = minColumnsIndex;
         seams[1] = minColumnsIndex;
         for (int row = 2; row < this.height() - 1; row++) {
             minColumnsIndex = getMinEnergyColumnIndex(row, minColumnsIndex, energy);
             seams[row] = minColumnsIndex;
         }
-        
+
         seams[this.height() - 1] = seams[this.height() - 2];
-        
+
         return seams;
     }
-    
-    private int getMinEnergyRowIndex(int row, int column, double[][] energy){
+
+    private int getMinEnergyRowIndex(int row, int column, double[][] energy)
+    {
         int minRowIndex = -1;
-        if ( row == 0){
+        if (row == 0) {
             double midE = energy[row][column];
             double bottomE = energy[row + 1][column];
             minRowIndex = midE <= bottomE ? row : row + 1;
-        } else if ( row == this.height() - 1) {
+        }
+        else if (row == this.height() - 1) {
             double topE = energy[row - 1][column];
             double midE = energy[row][column];
             minRowIndex = midE <= topE ? row : row - 1;
-        } else {
+        }
+        else {
             double topE = energy[row - 1][column];
             double midE = energy[row][column];
             double bottomE = energy[row + 1][column];
-            
+
             int midTopWinner = midE <= bottomE ? row : row + 1;
             int midBottomWinner = midE <= topE ? row : row - 1;
-            minRowIndex = energy[midTopWinner][column] <= energy[midBottomWinner][column] ? midTopWinner : midBottomWinner;
+            minRowIndex = energy[midTopWinner][column] <= energy[midBottomWinner][column] ? midTopWinner
+                    : midBottomWinner;
         }
         return minRowIndex;
     }
-    
-    private int getMinEnergyColumnIndex(int row, int column, double[][] energy){
+
+    private int getMinEnergyColumnIndex(int row, int column, double[][] energy)
+    {
         int minColumnIndex = -1;
-        if ( column == 0){
+        if (column == 0) {
             double bottomE = energy[row][column];
             double rightE = energy[row][column + 1];
             minColumnIndex = bottomE <= rightE ? column : column + 1;
-        } else if ( column == this.width() - 1) {
+        }
+        else if (column == this.width() - 1) {
             double leftE = energy[row][column - 1];
             double bottomE = energy[row][column];
             minColumnIndex = bottomE <= leftE ? column : column - 1;
-        } else {
+        }
+        else {
             double leftE = energy[row][column - 1];
             double bottomE = energy[row][column];
             double rightE = energy[row][column + 1];
-            
-            int BottomRightWinner = bottomE <= rightE ? column : column +1;
+
+            int BottomRightWinner = bottomE <= rightE ? column : column + 1;
             int BottomLeftWinner = bottomE <= leftE ? column : column - 1;
-            minColumnIndex = energy[row][BottomRightWinner] <= energy[row][BottomLeftWinner] ? BottomRightWinner : BottomLeftWinner;
+            minColumnIndex = energy[row][BottomRightWinner] <= energy[row][BottomLeftWinner] ? BottomRightWinner
+                    : BottomLeftWinner;
         }
         return minColumnIndex;
     }
@@ -214,6 +224,21 @@ public class SeamCarver
         validateNotNull(seam);
         validateSeam(seam, this.width());
         validateLength();
+
+        Picture p = new Picture(this.width(), this.height() - 1);
+        p.setOriginUpperLeft();
+        for (int col = 0; col < this.width(); col++) {
+            for (int row = 0; row < seam[col]; row++) {
+                p.set(col, row, this.picture.get(col, row));
+            }
+
+            for (int row = seam[col]; row < this.height() - 1; row++) {
+                p.set(col, row, this.picture.get(col, row + 1));
+            }
+        }
+
+        this.picture = p;
+
     }
 
     // remove vertical seam from current picture
@@ -223,6 +248,18 @@ public class SeamCarver
         validateSeam(seam, this.height());
         validateLength();
 
+        Picture p = new Picture(this.width() - 1, this.height());
+        p.setOriginUpperLeft();
+        for (int row = 0; row < this.height(); row++) {
+            for (int col = 0; col < seam[row]; col++) {
+                p.set(col, row, this.picture.get(col, row));
+            }
+            for (int col = seam[row]; col < this.width() - 1; col++) {
+                p.set(col, row, this.picture.get(col + 1, row));
+            }
+        }
+
+        this.picture = p;
     }
 
     private double calculateEnergy(int col, int row)
