@@ -99,89 +99,113 @@ public class SeamCarver
     // sequence of indices for horizontal seam
     public int[] findHorizontalSeam()
     {
-        throw new NullPointerException();
-
-    }
-
-    private void connectTop(EdgeWeightedDigraph g)
-    {
-        for (int i = 0; i < this.width(); i++) {
-            g.addEdge(new DirectedEdge(0, i + 1, 100));
+        int[] seams = new int[this.width()];
+        double[][] energy = new double[this.height()][this.width()];
+        
+        for (int row = 0; row < energy.length; row++) {
+            for (int column = 0; column < energy[row].length; column++) {
+                energy[row][column] = energy(column, row);
+            }
         }
-    }
-
-    private void connectBottom(EdgeWeightedDigraph g)
-    {
-        for (int i = this.width() * (this.height() - 1); i < this.width() * this.height(); i++) {
-            g.addEdge(new DirectedEdge(i + 1, g.V() - 1, 100));
+        
+        int minRowIndex = -1;
+        double minEnegy = Double.MAX_VALUE;
+        for (int row = 0; row < this.height(); row++) {
+            if ( minEnegy > energy[row][1] ){
+                minEnegy = energy[row][1];
+                minRowIndex = row;
+            }
         }
-    }
-
-    private double energy(int v)
-    {
-        int colRem = v % this.width();
-        int col = colRem == 0 ? this.width() - 1 : colRem - 1 ;
-        int row = colRem == 0 ?  v / this.width() -1 : v / this.width();
-        //StdOut.println("v : " + v + " " + "(col,row) -> (" + col + "," + row + ")" );
-
-        double energy = energy(col, row);
-        return energy;
-    }
-
-    private void connect(EdgeWeightedDigraph g, int v)
-    {
-        int colRem = v % this.width();
-
-        int w = v + this.width();
-
-        if (colRem == 1) {
-            g.addEdge(new DirectedEdge(v, w, energy(w) - energy(v)));
-            g.addEdge(new DirectedEdge(v, w + 1, energy(w + 1) - energy(v)));
+        
+        seams[0] = minRowIndex;
+        seams[1] = minRowIndex;
+        
+        for (int column = 2; column < this.width() - 1; column++) {
+            minRowIndex = getMinEnergyRowIndex(minRowIndex, column, energy);
+            seams[column] = minRowIndex;
         }
-        else if (colRem == 0) {
-            g.addEdge(new DirectedEdge(v, w - 1, energy(w - 1) - energy(v)));
-            g.addEdge(new DirectedEdge(v, w, energy(w) - energy(v)));
-        }
-        else {
-            g.addEdge(new DirectedEdge(v, w - 1, energy(w - 1) - energy(v)));
-            g.addEdge(new DirectedEdge(v, w, energy(w) - energy(v)));
-            g.addEdge(new DirectedEdge(v, w + 1, energy(w + 1) - energy(v)));
-        }
+        
+        seams[this.width() - 1] = seams[this.width() - 2];
+        
+        return seams;
+        
     }
 
     // sequence of indices for vertical seam
     public int[] findVerticalSeam()
     {
-        EdgeWeightedDigraph g = new EdgeWeightedDigraph(this.width() * this.height() + 2);
-
-        connectTop(g);
+        int[] seams = new int[this.height()];
+        double[][] energy = new double[this.height()][this.width()];
         
-        for (int v = 1; v <= this.width() * (this.height() - 1); v++) {
-            connect(g, v);
+        for (int row = 0; row < energy.length; row++) {
+            for (int column = 0; column < energy[row].length; column++) {
+                energy[row][column] = energy(column, row);
+            }
         }
         
-        connectBottom(g);
-        
-        AcyclicSP sp = new AcyclicSP(g, 0);
-        Iterable<DirectedEdge> edges = sp.pathTo(g.V() - 1);
-        Queue<Integer> q = new  Queue<Integer>();
-        for (DirectedEdge edge : edges) {
-            q.enqueue(edge.from());
+        int minColumnsIndex = -1;
+        double minEnegy = Double.MAX_VALUE;
+        for (int column = 0; column < this.width(); column++) {
+            if ( minEnegy > energy[1][column] ){
+                minEnegy = energy[1][column];
+                minColumnsIndex = column;
+            }
         }
         
-        //q.dequeue();
-
-        int[] seam = new int[q.size()];
-        for (int i = 0; i < seam.length; i++) {
-            int v = q.dequeue();
-            int colRem = v % this.width();
-            int col = colRem == 0 ? this.width() - 1 : colRem - 1 ;
-            seam[i] = col;
+        seams[0] = minColumnsIndex;
+        seams[1] = minColumnsIndex;
+        for (int row = 2; row < this.height() - 1; row++) {
+            minColumnsIndex = getMinEnergyColumnIndex(row, minColumnsIndex, energy);
+            seams[row] = minColumnsIndex;
         }
         
-        //q.pop();
-
-        return seam;
+        seams[this.height() - 1] = seams[this.height() - 2];
+        
+        return seams;
+    }
+    
+    private int getMinEnergyRowIndex(int row, int column, double[][] energy){
+        int minRowIndex = -1;
+        if ( row == 0){
+            double midE = energy[row][column];
+            double bottomE = energy[row + 1][column];
+            minRowIndex = midE <= bottomE ? row : row + 1;
+        } else if ( row == this.height() - 1) {
+            double topE = energy[row - 1][column];
+            double midE = energy[row][column];
+            minRowIndex = midE <= topE ? row : row - 1;
+        } else {
+            double topE = energy[row - 1][column];
+            double midE = energy[row][column];
+            double bottomE = energy[row + 1][column];
+            
+            int midTopWinner = midE <= bottomE ? row : row + 1;
+            int midBottomWinner = midE <= topE ? row : row - 1;
+            minRowIndex = energy[midTopWinner][column] <= energy[midBottomWinner][column] ? midTopWinner : midBottomWinner;
+        }
+        return minRowIndex;
+    }
+    
+    private int getMinEnergyColumnIndex(int row, int column, double[][] energy){
+        int minColumnIndex = -1;
+        if ( column == 0){
+            double bottomE = energy[row][column];
+            double rightE = energy[row][column + 1];
+            minColumnIndex = bottomE <= rightE ? column : column + 1;
+        } else if ( column == this.width() - 1) {
+            double leftE = energy[row][column - 1];
+            double bottomE = energy[row][column];
+            minColumnIndex = bottomE <= leftE ? column : column - 1;
+        } else {
+            double leftE = energy[row][column - 1];
+            double bottomE = energy[row][column];
+            double rightE = energy[row][column + 1];
+            
+            int BottomRightWinner = bottomE <= rightE ? column : column +1;
+            int BottomLeftWinner = bottomE <= leftE ? column : column - 1;
+            minColumnIndex = energy[row][BottomRightWinner] <= energy[row][BottomLeftWinner] ? BottomRightWinner : BottomLeftWinner;
+        }
+        return minColumnIndex;
     }
 
     // remove horizontal seam from current picture
