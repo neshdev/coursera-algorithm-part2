@@ -1,10 +1,7 @@
 import java.util.Arrays;
-
-import edu.princeton.cs.algs4.IndexMinPQ;
 import edu.princeton.cs.algs4.Picture;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.Stack;
-import edu.princeton.cs.algs4.StdOut;
 
 public class SeamCarver
 {
@@ -96,14 +93,14 @@ public class SeamCarver
         return energy;
     }
 
-    public int convertToV(int col, int row)
+    private int convertToV(int col, int row)
     {
         int x = (col % this.width()) + 1;
         int v = (row + 1) * x;
         return v;
     }
 
-    public Iterable<Integer> adj(int v)
+    private Iterable<Integer> adj(int v)
     {
         Queue<Integer> q = new Queue<Integer>();
 
@@ -145,14 +142,10 @@ public class SeamCarver
         if (distTo[w] > distTo[v] + energy(v)) {
             edgeTo[w] = v;
             distTo[w] = distTo[v] + energy(v);
-            if (pq.contains(w))
-                pq.decreaseKey(w, distTo[w]);
-            else
-                pq.insert(w, distTo[w]);
         }
     }
 
-    public double energy(int v)
+    private double energy(int v)
     {
         if (v == 0 || v == this.width() * this.height() + 1)
             return 0;
@@ -165,15 +158,27 @@ public class SeamCarver
     // sequence of indices for horizontal seam
     public int[] findHorizontalSeam()
     {
-        int[] seams = new int[this.width()];
-
+        Picture orig = picture;
+        this.transpose();
+        int[] seams = this.findVerticalSeam();
+        this.picture = orig;
         return seams;
-
     }
 
+    private void transpose(){
+        Picture transpose = new Picture(this.height(), this.width());
+        transpose.setOriginUpperLeft();
+        for (int col = 0; col < this.width(); col++) {
+            for (int row = 0; row < this.height(); row++) {
+                transpose.set(row, col, this.picture.get(col, row));
+            }
+        }
+        
+        this.picture = transpose;
+    }
+    
     private int[] edgeTo;
     private double[] distTo;
-    private IndexMinPQ<Double> pq;
 
     // sequence of indices for vertical seam
     public int[] findVerticalSeam()
@@ -189,12 +194,7 @@ public class SeamCarver
         }
         distTo[source] = sourceWeight;
 
-        pq = new IndexMinPQ<Double>(verticies + 2);
-        pq.insert(source, 0.0);
-
-        while (!pq.isEmpty()) {
-            int v = pq.delMin();
-
+        for (int v = 0; v < verticies + 2; v++) {
             for (Integer w : this.adj(v)) {
                 relax(v, w);
             }
