@@ -5,9 +5,9 @@ import edu.princeton.cs.algs4.Stopwatch;
 public class ResizeDemo {
     public static void main(String[] args) {
         args = new String[] {
-          "C:/coursera/Algorithms, Part II/assignments/seamCarving/HJocean.png",
-          "0",
-          "300"
+          "C:/coursera/Algorithms, Part II/assignments/seamCarving/chameleon.png",
+          "50",
+          "0"
         };
         
         if (args.length != 3) {
@@ -26,7 +26,7 @@ public class ResizeDemo {
 
         for (int i = 0; i < removeRows; i++) {
             int[] horizontalSeam = sc.findHorizontalSeam();
-            sc.removeHorizontalSeam(horizontalSeam);
+            //sc.removeHorizontalSeam(horizontalSeam);
         }
 
         for (int i = 0; i < removeColumns; i++) {
