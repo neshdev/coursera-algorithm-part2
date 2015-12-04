@@ -6,8 +6,8 @@ public class ResizeDemo {
     public static void main(String[] args) {
         args = new String[] {
           "C:/coursera/Algorithms, Part II/assignments/seamCarving/chameleon.png",
-          "250",
-          "0"
+          "0",
+          "100"
         };
         
         if (args.length != 3) {
@@ -25,17 +25,17 @@ public class ResizeDemo {
         Stopwatch sw = new Stopwatch();
 
         for (int i = 0; i < removeRows; i++) {
-            StdOut.println("Start H time: " + sw.elapsedTime() + " seconds.");
+            //StdOut.println("Start H time: " + sw.elapsedTime() + " seconds.");
             int[] horizontalSeam = sc.findHorizontalSeam();
-            StdOut.println("End H time: " + sw.elapsedTime() + " seconds.");
+            //StdOut.println("End H time: " + sw.elapsedTime() + " seconds.");
             
-            //sc.removeHorizontalSeam(horizontalSeam);
+            sc.removeHorizontalSeam(horizontalSeam);
         }
 
         for (int i = 0; i < removeColumns; i++) {
-            StdOut.println("Start V time: " + sw.elapsedTime() + " seconds.");
+            //StdOut.println("Start V time: " + sw.elapsedTime() + " seconds.");
             int[] verticalSeam = sc.findVerticalSeam();
-            StdOut.println("End V time: " + sw.elapsedTime() + " seconds.");
+            //StdOut.println("End V time: " + sw.elapsedTime() + " seconds.");
             sc.removeVerticalSeam(verticalSeam);
         }
         Picture outputImg = sc.picture();

@@ -32,6 +32,11 @@ public class SeamCarver
                     + (this.height() - 1));
     }
 
+    private void validateSeamIndex(int index, int length){
+        if ( index < 0) throw new IllegalArgumentException("seam index cannot be negative");
+        if ( index >= length) throw new IllegalArgumentException("seam index cannot be more than length");
+    }
+    
     private void validateSeam(int[] seam, int length)
     {
         //throw new IllegalArgumentException();
@@ -39,7 +44,12 @@ public class SeamCarver
             throw new IllegalArgumentException("Seam is not the same. " + "Actual: " + seam.length
                     + ", Expected : " + length);
 
+        validateSeamIndex(seam[0], length);
+        
+        
         for (int i = 1; i < seam.length; i++) {
+            validateSeamIndex(seam[i], length);
+            
             if (Math.abs(seam[i] - seam[i - 1]) > 1) {
                 throw new IllegalArgumentException("Seam at index " + i + ":" + seam[i]
                         + " differrs from seam at index " + (i - 1) + ":" + seam[i - 1]);
@@ -49,10 +59,10 @@ public class SeamCarver
 
     private void validateLength()
     {
-        if (this.width() <= 1)
+        if (this.width() < 1)
             throw new IllegalArgumentException("Width is <= 1");
 
-        if (this.height() <= 1)
+        if (this.height() < 1)
             throw new IllegalArgumentException("Height is <= 1");
     }
 
@@ -69,7 +79,7 @@ public class SeamCarver
     // current picture
     public Picture picture()
     {
-        return this.picture;
+        return new Picture(this.picture);
     }
 
     // width of current picture

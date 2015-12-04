@@ -78,5 +78,44 @@ public class SeamCarver2Test
         }
         StdOut.println("End V Find Seam 6x5");
     }
+    
+    @Test
+    public void Find8x1(){
+        StdOut.println("Find V Seam 8x1");
+        String filename = "C:/coursera/Algorithms, Part II/assignments/seamCarving/8x1.png";
+        Picture picture = new Picture(filename);
+        SeamCarver sc = new SeamCarver(picture);
+        int[] actual = sc.findVerticalSeam();
+        for (int i = 0; i < actual.length; i++) {
+            StdOut.println(actual[i]);
+        }
+        StdOut.println("End V Find Seam 8x1");
+    }
+    
+    @Test
+    public void Find1x8(){
+        StdOut.println("Find V Seam 1x8");
+        String filename = "C:/coursera/Algorithms, Part II/assignments/seamCarving/1x8.png";
+        Picture picture = new Picture(filename);
+        SeamCarver sc = new SeamCarver(picture);
+        int[] actual = sc.findVerticalSeam();
+        for (int i = 0; i < actual.length; i++) {
+            StdOut.println(actual[i]);
+        }
+        StdOut.println("End V Find Seam 1x8");
+    }
+    
+    @Test
+    public void Find1x1(){
+        StdOut.println("Find V Seam 1x1");
+        String filename = "C:/coursera/Algorithms, Part II/assignments/seamCarving/1x1.png";
+        Picture picture = new Picture(filename);
+        SeamCarver sc = new SeamCarver(picture);
+        int[] actual = sc.findVerticalSeam();
+        for (int i = 0; i < actual.length; i++) {
+            StdOut.println(actual[i]);
+        }
+        StdOut.println("End V Find Seam 1x1");
+    }
 
 }
