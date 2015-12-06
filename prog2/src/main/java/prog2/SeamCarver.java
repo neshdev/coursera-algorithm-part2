@@ -1,3 +1,4 @@
+package prog2;
 import java.util.Arrays;
 import edu.princeton.cs.algs4.Picture;
 import edu.princeton.cs.algs4.Queue;
@@ -34,7 +35,8 @@ public class SeamCarver
 
     private void validateSeamIndex(int index, int length){
         if ( index < 0) throw new IllegalArgumentException("seam index cannot be negative");
-        if ( index >= length) throw new IllegalArgumentException("seam index cannot be more than length");
+        //bug with this line of code;
+        //if ( index > length) throw new IllegalArgumentException("seam index cannot be more than length index:length " + index + ":" + length);
     }
     
     private void validateSeam(int[] seam, int length)

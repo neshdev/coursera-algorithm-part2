@@ -1,7 +1,9 @@
+package prog2;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import prog2.SeamCarver;
 import edu.princeton.cs.algs4.Picture;
 import edu.princeton.cs.algs4.StdOut;
 
