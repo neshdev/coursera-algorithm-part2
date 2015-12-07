@@ -122,6 +122,14 @@ public class BaseballElimination
         int remainX = remaining(team);
         int xIndex = teamToIndex.get(team);
         
+        //trivial case
+        for (int i = 0; i < this.numberOfTeams(); i++) {
+            if ( i != xIndex){
+                if ( (winsX + remainX) < wins[i] )
+                    return true;
+            }
+        }
+        
         int verticies = SOURCE_VERTEX_COUNT + SINK_VERTEX_COUNT + (this.numberOfTeams() - 1) * (this.numberOfTeams() - 2) + this.numberOfTeams();
         int sourceVertex = verticies - 1;
         int sinkVertex = verticies - 2;
@@ -175,6 +183,17 @@ public class BaseballElimination
         int winsX = wins(team);
         int remainX = remaining(team);
         int xIndex = teamToIndex.get(team);
+        Queue<String> q = new Queue<String>();
+        
+        //trivial case
+        for (int i = 0; i < this.numberOfTeams(); i++) {
+            if ( i != xIndex){
+                if ( (winsX + remainX) < wins[i] )
+                    q.enqueue(indexToTeam.get(i));
+            }
+        }
+        
+        if (!q.isEmpty()) return q;
         
         int verticies = SOURCE_VERTEX_COUNT + SINK_VERTEX_COUNT + (this.numberOfTeams() - 1) * (this.numberOfTeams() - 2) + this.numberOfTeams();
         int sourceVertex = verticies - 1;
@@ -201,7 +220,7 @@ public class BaseballElimination
             }
         }
         
-        Queue<String> q = new Queue<String>();
+        
         FordFulkerson ff = new FordFulkerson(g, sourceVertex, sinkVertex);
         for (int v = 0; v < this.numberOfTeams(); v++) {
             if (ff.inCut(v)){
@@ -210,7 +229,6 @@ public class BaseballElimination
         }
         
         return q.isEmpty() ?  null : q;
-        //return q.isEmpty() ?  new Queue<String>() : q;
     }
 
     public static void main(String[] args)

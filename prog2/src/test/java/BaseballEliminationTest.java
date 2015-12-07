@@ -92,11 +92,45 @@ public class BaseballEliminationTest
         }
     }
     
-    @Test
-    public void testFile4(){
-        String filename = "C:/coursera/Algorithms, Part II/assignments/baseball/teams4.txt";
+    private static void runFile(String filename){
+        StdOut.println("Running for file:" + filename);
         String[] args = new String[] { filename };
         BaseballElimination.main(args);
+        StdOut.println();
+    }
+    
+    @Test
+    public void testFile4(){
+        String[] files = new String[]
+                {
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams1.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams10.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams12-allgames.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams12.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams24.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams29.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams30.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams32.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams36.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams4.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams42.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams48.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams4a.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams4b.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams5.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams50.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams54.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams5a.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams5b.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams5c.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams60.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams7.txt",
+                "C:/coursera/Algorithms, Part II/assignments/baseball/teams8.txt",
+                };
+        for (String filename : files) {
+            runFile(filename);
+        }
+        
     }
 
 }
