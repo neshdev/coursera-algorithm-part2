@@ -1,7 +1,9 @@
+package prog3;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import prog3.BaseballElimination;
 import edu.princeton.cs.algs4.StdOut;
 
 public class BaseballEliminationTest

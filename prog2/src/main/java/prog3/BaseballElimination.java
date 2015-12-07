@@ -1,3 +1,4 @@
+package prog3;
 import java.util.HashMap;
 
 import edu.princeton.cs.algs4.FlowEdge;
