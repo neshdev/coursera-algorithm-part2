@@ -2,6 +2,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import edu.princeton.cs.algs4.StdOut;
+
 public class BaseballEliminationTest
 {
 
@@ -63,6 +65,38 @@ public class BaseballEliminationTest
         assertEquals(TEAM4_ATLvsPHL_REMAIN, be.against("Atlanta", "Philadelphia"));
         assertEquals(TEAM4_ATLvsNYC_REMAIN, be.against("Atlanta", "New_York"));
         assertEquals(TEAM4_ATLvsMON_REMAIN, be.against("Atlanta", "Montreal"));
+    }
+    
+    @Test
+    public void IsPhiliadelphiaEliminated(){
+        String filename = "C:/coursera/Algorithms, Part II/assignments/baseball/teams4.txt";
+        BaseballElimination be = new BaseballElimination(filename);
+        be.isEliminated("Philadelphia");
+    }
+    
+    @Test
+    public void PhiliadelphiaCertofElimination(){
+        String filename = "C:/coursera/Algorithms, Part II/assignments/baseball/teams4.txt";
+        BaseballElimination be = new BaseballElimination(filename);
+        for (String team : be.certificateOfElimination("Philadelphia")) {
+            StdOut.println(team);
+        }
+    }
+    
+    @Test
+    public void AtlantaCertofElimination(){
+        String filename = "C:/coursera/Algorithms, Part II/assignments/baseball/teams4.txt";
+        BaseballElimination be = new BaseballElimination(filename);
+        for (String team : be.certificateOfElimination("Atlanta")) {
+            StdOut.println(team);
+        }
+    }
+    
+    @Test
+    public void testFile4(){
+        String filename = "C:/coursera/Algorithms, Part II/assignments/baseball/teams4.txt";
+        String[] args = new String[] { filename };
+        BaseballElimination.main(args);
     }
 
 }
