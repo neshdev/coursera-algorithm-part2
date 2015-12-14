@@ -16,27 +16,36 @@ public class BoggleSolverTest
     private static String BOARD_4x4 = "C:/coursera/Algorithms, Part II/assignments/boggle/board4x4.txt";
     private static String BOARD_2x2 = "C:/coursera/Algorithms, Part II/assignments/boggle/board2x2.txt";
 
-    public void runSolver(String dictionaryFile, String boardFile)
+    public void runSolver(String dictionaryFile, String boardFile, boolean showPoints)
     {
         In in = new In(dictionaryFile);
         String[] dictionary = in.readAllStrings();
         BoggleSolver solver = new BoggleSolver(dictionary);
         BoggleBoard board = new BoggleBoard(boardFile);
         int actual = 0;
+        int count = 0;
         for (String word : solver.getAllValidWords(board))
         {
             actual += solver.scoreOf(word);
+            count++;
         }
-        Integer expected = Integer.parseInt(boardFile
-                .replace("C:/coursera/Algorithms, Part II/assignments/boggle/", "")
-                .replace("board-points", "")
-                .replace(".txt",
-                        ""));
+        
+        if ( showPoints){
+            Integer expected = Integer.parseInt(boardFile
+                    .replace("C:/coursera/Algorithms, Part II/assignments/boggle/", "")
+                    .replace("board-points", "")
+                    .replace(".txt",
+                            ""));
 
-        StdOut.println(boardFile + " (" + expected + "," + actual + ")");
+            StdOut.println(boardFile + " (" + expected + "," + actual + ")" + "-" + count);
+        }
+        else {
+            StdOut.println(boardFile + " (" + actual + ")" + "-" + count);
+        }
+        
     }
     
-    @Test
+    //@Test
     public void randomSolver(){
         Stopwatch sw = new Stopwatch();
         In in = new In(YAWL);
@@ -50,7 +59,42 @@ public class BoggleSolverTest
     }
 
     //@Test
-    public void runAllTests()
+    public void runAllExoticTests(){
+        String path = "C:/coursera/Algorithms, Part II/assignments/boggle/";
+        String[] files = new String[]
+        {
+                path + "board-dodo.txt",
+                path + "board-noon.txt",
+                path + "board-couscous.txt",
+                path + "board-rotavator.txt",
+                path + "board-estrangers.txt",
+                //path + "board-antidisestablishmentarianisms.txt",
+                //path + "board-dichlorodiphenyltrichloroethanes.txt",
+                path + "board-pneumonoultramicroscopicsilicovolcanoconiosis.txt",
+        };
+        for (String board : files) {
+            runSolver(YAWL, board, false);
+        }
+    }
+    
+    @Test
+    public void runAllQTests(){
+        String path = "C:/coursera/Algorithms, Part II/assignments/boggle/";
+        String[] files = new String[]
+        {
+                path + "board-qwerty.txt",
+                path + "board-quinquevalencies.txt",
+                path + "board-inconsequentially.txt",
+                //path + "board-qaimaqam.txt",
+                path + "board-aqua.txt",
+        };
+        for (String board : files) {
+            runSolver(YAWL, board, false);
+        }
+    }
+    
+    //@Test
+    public void runAllPointsTests()
     {
         String path = "C:/coursera/Algorithms, Part II/assignments/boggle/";
         String[] files = new String[]
@@ -80,41 +124,47 @@ public class BoggleSolverTest
                 path + "board-points777.txt"
         };
         for (String board : files) {
-            runSolver(YAWL, board);
+            runSolver(YAWL, board, true);
         }
     }
 
     //@Test
     public void standard()
     {
-        In in = new In(YAWL);
+        In in = new In(ALGS);
         String[] dictionary = in.readAllStrings();
         BoggleSolver solver = new BoggleSolver(dictionary);
         BoggleBoard board = new BoggleBoard(BOARD_4x4);
         StdOut.println("Words in board");
         int score = 0;
+        int count = 0;
         for (String word : solver.getAllValidWords(board)) {
             StdOut.println(word);
             score += solver.scoreOf(word);
+            count++;
         }
         StdOut.println("Score = " + score);
+        StdOut.println("Total = " + count);
     }
     
     //@Test
     public void debugger()
     {
-        String boardFile = "C:/coursera/Algorithms, Part II/assignments/boggle/board-points777.txt";
-        In in = new In(YAWL);
+        String boardFile = "C:/coursera/Algorithms, Part II/assignments/boggle/board-q.txt";
+        In in = new In(ALGS);
         String[] dictionary = in.readAllStrings();
         BoggleSolver solver = new BoggleSolver(dictionary);
         BoggleBoard board = new BoggleBoard(boardFile);
         StdOut.println("Words in board");
         int score = 0;
+        int count = 0;
         for (String word : solver.getAllValidWords(board)) {
             StdOut.println(word);
             score += solver.scoreOf(word);
+            count++;
         }
         StdOut.println("Score = " + score);
+        StdOut.println("Total = " + count);
     }
 
 //    @Test

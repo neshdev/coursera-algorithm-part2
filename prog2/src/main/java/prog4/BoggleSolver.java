@@ -108,7 +108,7 @@ public class BoggleSolver
     // return i - rows;
     private int convertToI(int v, BoggleBoard board)
     {
-        return v / board.rows();
+        return v / board.cols();
     }
 
     // v - the vertex
@@ -116,7 +116,7 @@ public class BoggleSolver
     // return j - column
     private int convertToJ(int v, BoggleBoard board)
     {
-        return v % board.rows();
+        return v % board.cols();
     }
 
     private String getLetter(int v, BoggleBoard board)
@@ -211,7 +211,7 @@ public class BoggleSolver
 
     private void dfs(int v, BoggleBoard board, String prefix, SET<String> q){
         if (!words.matchPrefix(prefix)) return;
-        if ( words.contains(prefix)) q.add(prefix);
+        if ( words.contains(prefix) && (prefix.length() >= 3)) q.add(prefix);
         //StdOut.println(prefix);
         marked[v] = true;
         for (Integer w : this.adj(v, board)) {
