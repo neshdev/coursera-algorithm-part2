@@ -1,6 +1,7 @@
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.SET;
 import edu.princeton.cs.algs4.StdOut;
 
 class Trie<Value>
@@ -75,14 +76,14 @@ public class BoggleSolver
     // Returns the set of all valid words in the given Boggle board, as an Iterable.
     public Iterable<String> getAllValidWords(BoggleBoard board)
     {
-        Queue<String> q = new Queue<String>();
+        SET<String> q = new SET<String>();
 
         for (int i = 0; i < board.rows(); i++) {
             for (int j = 0; j < board.cols(); j++) {
                 marked = new boolean[board.rows() * board.cols()];
                 int v = convertToV(i, j, board);
-                System.out.println(v);
-                dfs(v, board, getLetter(v, board) + "");
+                //System.out.println(v);
+                dfs(v, board, getLetter(v, board) + "", q);
             }
         }
 
@@ -200,13 +201,14 @@ public class BoggleSolver
         return q;
     }
 
-    private void dfs(int v, BoggleBoard board, String prefix){
+    private void dfs(int v, BoggleBoard board, String prefix, SET<String> q){
         if (!words.matchPrefix(prefix)) return;
-        StdOut.println(prefix);
+        if ( words.contains(prefix)) q.add(prefix);
+        //StdOut.println(prefix);
         marked[v] = true;
         for (Integer w : this.adj(v, board)) {
             if (!marked[w]){
-                dfs(w, board, prefix + this.getLetter(w, board));
+                dfs(w, board, prefix + this.getLetter(w, board), q);
                 marked[w] = false;
             }
         }
