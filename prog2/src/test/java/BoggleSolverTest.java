@@ -1,6 +1,8 @@
 import org.junit.Test;
+
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.Stopwatch;
 
 public class BoggleSolverTest
 {
@@ -30,8 +32,21 @@ public class BoggleSolverTest
 
         StdOut.println(boardFile + " (" + expected + "," + actual + ")");
     }
-
+    
     @Test
+    public void randomSolver(){
+        Stopwatch sw = new Stopwatch();
+        In in = new In(YAWL);
+        String[] dictionary = in.readAllStrings();
+        BoggleSolver solver = new BoggleSolver(dictionary);
+        for (int i = 0; i < 1000; i++) {
+            BoggleBoard board = new BoggleBoard();
+            solver.getAllValidWords(board);
+        }
+        StdOut.println(sw.elapsedTime());
+    }
+
+    //@Test
     public void runAllTests()
     {
         String path = "C:/coursera/Algorithms, Part II/assignments/boggle/";
