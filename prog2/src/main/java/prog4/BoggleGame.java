@@ -1,3 +1,4 @@
+package prog4;
 /******************************************************************************
  *  Compilation:  javac BoggleGame.java
  *  Execution:    java BoggleGame [M N]

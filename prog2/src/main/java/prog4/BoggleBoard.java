@@ -1,3 +1,4 @@
+package prog4;
 /******************************************************************************
  *  Compilation:  javac BoggleBoard.java
  *  Execution:    java  BoggleBoard

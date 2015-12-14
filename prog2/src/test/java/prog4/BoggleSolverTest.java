@@ -1,5 +1,8 @@
+package prog4;
 import org.junit.Test;
 
+import prog4.BoggleBoard;
+import prog4.BoggleSolver;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.Stopwatch;
