@@ -58,7 +58,7 @@ public class BoggleSolverTest
         StdOut.println(sw.elapsedTime());
     }
 
-    //@Test
+    @Test
     public void runAllExoticTests(){
         String path = "C:/coursera/Algorithms, Part II/assignments/boggle/";
         String[] files = new String[]
@@ -68,8 +68,8 @@ public class BoggleSolverTest
                 path + "board-couscous.txt",
                 path + "board-rotavator.txt",
                 path + "board-estrangers.txt",
-                //path + "board-antidisestablishmentarianisms.txt",
-                //path + "board-dichlorodiphenyltrichloroethanes.txt",
+                path + "board-antidisestablishmentarianisms.txt",
+                path + "board-dichlorodiphenyltrichloroethanes.txt",
                 path + "board-pneumonoultramicroscopicsilicovolcanoconiosis.txt",
         };
         for (String board : files) {
@@ -93,7 +93,7 @@ public class BoggleSolverTest
         }
     }
     
-    //@Test
+    @Test
     public void runAllPointsTests()
     {
         String path = "C:/coursera/Algorithms, Part II/assignments/boggle/";

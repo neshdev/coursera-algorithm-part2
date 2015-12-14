@@ -99,7 +99,7 @@ public class BoggleSolver
     // returns v - the vertex
     private int convertToV(int i, int j, BoggleBoard board)
     {
-        int v = i * board.rows() + j;
+        int v = i * board.cols() + j;
         return v;
     }
 
@@ -133,6 +133,9 @@ public class BoggleSolver
     private Iterable<Integer> adj(int v, BoggleBoard board)
     {
         Queue<Integer> q = new Queue<Integer>();
+        
+        
+            
 
         int topLeft = v - board.cols() - 1;
         int top = v - board.cols();
@@ -147,6 +150,26 @@ public class BoggleSolver
 
         int r = board.rows();
         int c = board.cols();
+        
+        
+        if (r == 1 && c == 1) return q;
+        if (r == 1){
+            if( v != 0)
+                q.enqueue(left);
+            if (v != c-1)
+                q.enqueue(right);
+            return q;
+        }
+        
+        if (c == 1){
+            if( v != 0)
+                q.enqueue(top);
+            if (v != r*c-1)
+                q.enqueue(bottom);
+            return q;
+        }
+        
+        
         if (v == 0) {
             q.enqueue(right);
             q.enqueue(bottom);
