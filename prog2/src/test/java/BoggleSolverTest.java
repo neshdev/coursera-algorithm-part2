@@ -31,7 +31,7 @@ public class BoggleSolverTest
         StdOut.println(boardFile + " (" + expected + "," + actual + ")");
     }
 
-    //@Test
+    @Test
     public void runAllTests()
     {
         String path = "C:/coursera/Algorithms, Part II/assignments/boggle/";
@@ -82,7 +82,7 @@ public class BoggleSolverTest
         StdOut.println("Score = " + score);
     }
     
-    @Test
+    //@Test
     public void debugger()
     {
         String boardFile = "C:/coursera/Algorithms, Part II/assignments/boggle/board-points777.txt";

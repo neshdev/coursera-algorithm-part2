@@ -83,7 +83,7 @@ public class BoggleSolver
                 marked = new boolean[board.rows() * board.cols()];
                 int v = convertToV(i, j, board);
                 //System.out.println(v);
-                dfs(v, board, getLetter(v, board) + "", q);
+                dfs(v, board, getLetter(v, board), q);
             }
         }
 
@@ -115,11 +115,15 @@ public class BoggleSolver
         return v % board.rows();
     }
 
-    private char getLetter(int v, BoggleBoard board)
+    private String getLetter(int v, BoggleBoard board)
     {
         int i = convertToI(v, board);
         int j = convertToJ(v, board);
-        return board.getLetter(i, j);
+        char letter = board.getLetter(i, j);
+        if ( letter == 'Q') {
+            return "QU";
+        }
+        else return Character.toString(letter);
     }
 
     private Iterable<Integer> adj(int v, BoggleBoard board)
@@ -247,32 +251,8 @@ public class BoggleSolver
     // (You can assume the word contains only the uppercase letters A through Z.)
     public int scoreOf(String word)
     {
-        int score = 0;
-        if (!this.words.contains(word)) return score;
-        switch (word.length()) {
-        case 0:
-        case 1:
-        case 2:
-            score = 0;
-            break;
-        case 3:
-        case 4:
-            score = 1;
-            break;
-        case 5:
-            score = 2;
-            break;
-        case 6:
-            score = 3;
-            break;
-        case 7:
-            score = 5;
-            break;
-        default:
-            score = 11;
-            break;
-        }
-        return score;
+        if (!this.words.contains(word)) return 0;
+        return score(word);
     }
 
     public static void main(String[] args)
