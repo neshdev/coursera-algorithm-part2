@@ -9,7 +9,8 @@ public class BoggleSolver
 {
     private static class Trie<Value>
     {
-        private static final int R = 256;
+        private static final int R = 26;
+        private static final int OFFSET = 65;
         
         private static class Node
         {
@@ -31,7 +32,7 @@ public class BoggleSolver
             if ( x == null) { x = new Node();}
             if ( d == key.length()) { x.val = val; return x; }
             char c = key.charAt(d);
-            x.next[c] = put(x.next[c], key, val, d+1);
+            x.next[c - OFFSET] = put(x.next[c - OFFSET], key, val, d+1);
             return x;
         }
         
@@ -49,7 +50,7 @@ public class BoggleSolver
             if ( x == null) return x;
             if ( d == key.length() ) return x;
             char c = key.charAt(d);
-            return get(x.next[c], key, d+1);
+            return get(x.next[c - OFFSET], key, d+1);
         }
         
         public boolean matchPrefix(String prefix){

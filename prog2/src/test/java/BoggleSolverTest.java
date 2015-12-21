@@ -45,7 +45,7 @@ public class BoggleSolverTest
         
     }
     
-    //@Test
+    @Test
     public void randomSolver(){
         Stopwatch sw = new Stopwatch();
         In in = new In(YAWL);
