@@ -15,16 +15,34 @@ public class CircularSuffixArray
             else if ( this.key < o.key) return -1;
             else {
                 int returnCode = 0;
-                while(returnCode == 0){
-                    Node comp = o.next;
-                    Node cur = this.next;
-                    returnCode = cur.compareTo(comp);
+                Node root = this;
+                
+                Node comp = o.next;
+                Node cur = this.next;
+                
+                
+                while(true){
+                    if ( cur.key > comp.key ){
+                        returnCode = 1;
+                        break;
+                    }
+                    
+                    if ( cur.key < comp.key ){
+                        returnCode = -1;
+                        break;
+                    }
+                    
+                    if ( root.equals(cur))
+                        break;
+                    
+                    comp = comp.next;
+                    cur = cur.next;
                 }
                 return returnCode;
             }
         }
     }
-    
+        
     private int length;
     private int[] indexes;
     
@@ -76,6 +94,6 @@ public class CircularSuffixArray
     // unit testing of the methods (optional)
     public static void main(String[] args)
     {
-
+        new CircularSuffixArray("AAA");
     }
 }
