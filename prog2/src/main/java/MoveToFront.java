@@ -15,7 +15,15 @@ public class MoveToFront {
     // if args[0] is '+', apply move-to-front decoding
     public static void main(String[] args)
     {
+        if ( args[0].length() == 0) throw new IllegalArgumentException("Need to pass - or +");
+        String type = args[0];
+        if ( type == "+"){
+            decode();
+        }
         
+        if ( type == "-"){
+            encode();
+        }
     }
     
 }

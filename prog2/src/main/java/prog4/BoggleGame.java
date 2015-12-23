@@ -1,3 +1,4 @@
+package prog4;
 
 
 import java.awt.Color;
